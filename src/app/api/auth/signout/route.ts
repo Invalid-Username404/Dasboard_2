@@ -3,13 +3,34 @@ import { cookies } from "next/headers";
 
 export async function POST() {
   try {
-    // Clear all auth-related cookies
     const cookieStore = cookies();
-    cookieStore.delete("authjs.session-token");
-    cookieStore.delete("next-auth.session-token");
-    cookieStore.delete("authjs.csrf-token");
-    cookieStore.delete("next-auth.csrf-token");
-    cookieStore.delete("authjs.callback-url");
+
+    // Clear all possible auth-related cookies
+    const cookieOptions = {
+      name: "", // Will be set for each cookie
+      path: "/",
+      domain:
+        process.env.NODE_ENV === "production"
+          ? "marses-dashboard.vercel.app"
+          : undefined,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 0,
+    };
+
+    // Delete cookies one by one with proper options
+    [
+      "authjs.session-token",
+      "next-auth.session-token",
+      "authjs.csrf-token",
+      "next-auth.csrf-token",
+      "authjs.callback-url",
+      "__Secure-next-auth.session-token",
+    ].forEach((cookieName) => {
+      cookieStore.delete({
+        ...cookieOptions,
+        name: cookieName,
+      });
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

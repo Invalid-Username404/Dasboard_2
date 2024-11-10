@@ -33,21 +33,14 @@ export default function DashboardSideBar() {
 
   const handleSignOut = async () => {
     try {
-      // First sign out from next-auth
       await signOut({
         redirect: false,
+        callbackUrl: "/signin",
       });
 
-      // Then call our API endpoint
-      await fetch("/api/auth/signout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      // Finally, redirect
+      // Force navigation after signOut
       router.push("/signin");
+      router.refresh();
     } catch (error) {
       console.error("Error signing out:", error);
     }

@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     const hashedPassword = await hash(password, 12);
 
     // Handle profile picture upload if present
-    let profilePictureUrl = "/images/default-avatar.png";
+    let profilePictureUrl = "/icons/default-avatar.svg";
     if (profilePicture) {
       try {
         const bytes = await profilePicture.arrayBuffer();

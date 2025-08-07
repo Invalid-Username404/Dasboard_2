@@ -2,8 +2,9 @@ import { Suspense } from "react";
 import DashboardSideBar from "@/components/DashboardSideBar";
 import Loading from "@/components/Loading";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+// Removed authentication imports
+// import { redirect } from "next/navigation";
+// import { auth } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Dashboard | Marses Robotics",
@@ -22,11 +23,11 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  const session = await auth();
-
-  if (!session) {
-    redirect("/signin");
-  }
+  // Removed authentication check to allow public access
+  // const session = await auth();
+  // if (!session) {
+  //   redirect("/signin");
+  // }
 
   return (
     <div

@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
-import { useSession, signOut } from "next-auth/react";
+// Removed authentication imports
+// import { useSession, signOut } from "next-auth/react";
 
 // Type definitions
 interface NavItem {
@@ -28,23 +29,9 @@ export default function DashboardSideBar() {
   const pathname = usePathname();
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut({
-        redirect: false,
-        callbackUrl: "/signin",
-      });
-
-      // Force navigation after signOut
-      router.push("/signin");
-      router.refresh();
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
+  // Removed session and signOut functionality
+  // const { data: session } = useSession();
+  // const router = useRouter();
 
   return (
     <>
@@ -125,111 +112,9 @@ export default function DashboardSideBar() {
           ))}
         </div>
 
-        {/* Mobile User Section */}
-        <div className="sm:hidden flex items-center gap-3 flex-shrink-0">
-          <motion.div
-            className="relative group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <div className="relative w-8 h-8 rounded-full overflow-hidden">
-              <Image
-                src={session?.user?.image || "/icons/default-avatar.svg"}
-                alt="Profile picture"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-            <motion.div
-              className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-sm rounded whitespace-nowrap z-50"
-              initial={{ opacity: 0, y: 10 }}
-              whileHover={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              {session?.user?.name || "Profile"}
-            </motion.div>
-            <div className="invisible group-hover:visible absolute top-[calc(100%+0.85rem)] left-1/2 -translate-x-1/2 px-3 py-2 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-50">
-              {session?.user?.name || "Profile"}
-            </div>
-          </motion.div>
+{/* Mobile User Section - Removed */}
 
-          <motion.div
-            className="relative group"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <button
-              className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Logout"
-              onClick={handleSignOut}
-            >
-              <Image
-                src="/icons/logout.svg"
-                alt="logout"
-                width={30}
-                height={30}
-                className={isDark ? "invert" : ""}
-              />
-            </button>
-            <motion.div
-              className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-sm rounded whitespace-nowrap z-50"
-              initial={{ opacity: 0, y: 10 }}
-              whileHover={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              Logout
-            </motion.div>
-            <div className="invisible group-hover:visible absolute top-[calc(100%+0.55rem)] left-1/2 -translate-x-1/2 px-3 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-50">
-              Logout
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Desktop User Section */}
-        <div className="hidden sm:flex flex-col mt-auto pt-4 border-t border-gray-200 dark:border-gray-800">
-          <div className="relative group">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="relative mb-2 w-16 h-16 rounded-full overflow-hidden"
-              role="img"
-              aria-label={`${session?.user?.name || "User"}'s avatar`}
-            >
-              <Image
-                src={session?.user?.image || "/icons/default-avatar.svg"}
-                alt="Profile picture"
-                fill
-                className="object-cover"
-                priority
-              />
-            </motion.div>
-            {/* Tooltip */}
-            <div className="invisible group-hover:visible absolute top-1/2 -translate-y-1/2 left-[calc(100%+0.75rem)] px-2 py-1 bg-gray-900 text-white text-sm rounded whitespace-nowrap z-50">
-              {session?.user?.name || "Profile"}
-            </div>
-          </div>
-          <div className="relative group">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Logout"
-              onClick={handleSignOut}
-            >
-              <Image
-                src="/icons/logout.svg"
-                alt="logout"
-                width={30}
-                height={30}
-                className={isDark ? "invert" : ""}
-              />
-            </motion.button>
-            {/* Tooltip */}
-            <div className="invisible group-hover:visible absolute top-1/2 -translate-y-1/2 left-[calc(100%+0.75rem)] px-2 py-1 bg-gray-900 text-white text-sm rounded whitespace-nowrap z-50">
-              Logout
-            </div>
-          </div>
-        </div>
+        {/* Desktop User Section - Removed */}
       </nav>
     </>
   );
